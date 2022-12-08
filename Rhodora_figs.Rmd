@@ -13,6 +13,8 @@ library(ggplot2)
 library(tidyverse)
 library(gridExtra)
 library(ggmap)
+library(maps)
+library(mapdata)
 
 #set the working directory (it's in the dropbox)
 setwd("~/Dropbox/colette/Triodanis_phenology")
@@ -22,14 +24,154 @@ setwd("~/Dropbox/colette/Triodanis_phenology")
 
 ```{r maps for each species}
 dat = read.csv("clean_data_10.8.csv")
-register_google(key="AIzaSyBDGTymKum2jno0ar-rZDTY8WRdgplYgdI")
+```
+
+```{r prepping data for linear models}
+bif_FL<-filter(dat, Species=="biflora", Phenology=="Flowering", Latitude>24.5465)
+col_FL<-filter(dat, Species=="coloradoensis", Phenology=="Flowering", Latitude>24.5465)
+holz_FL<-filter(dat, Species=="holzingeri", Phenology=="Flowering", Latitude>24.5465)
+lamp_FL<-filter(dat, Species=="lamprosperma", Phenology=="Flowering", Latitude>24.5465)
+lept_FL<-filter(dat, Species=="leptocarpa", Phenology=="Flowering", Latitude>24.5465)
+perf_FL<-filter(dat, Species=="perfoliata", Phenology=="Flowering", Latitude>24.5465)
+tex_FL<-filter(dat, Species=="texana", Phenology=="Flowering", Latitude>24.5465)
 ```
 
 
 ```{r maps for each species}
-#us <- get_map(location="us")
-#ggmap(us)
-#?register_google
+lat=dat$Latitude
+long=dat$Longitude
+usa=map_data("usa")
+
+bif_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=bif_FL, aes(x=Longitude, y=Latitude), col="black") +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. biflora")
+
+col_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=col_FL, aes(x=Longitude, y=Latitude), col="black") +
+    theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. coloradoensis")
+
+holz_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=holz_FL, aes(x=Longitude, y=Latitude), col="black") +  
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. holzingeri")
+
+lamp_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=lamp_FL, aes(x=Longitude, y=Latitude), col="black")+
+    theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. lamprosperma")
+
+lept_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=lept_FL, aes(x=Longitude, y=Latitude), col="black") + 
+    theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. leptocarpa")
+
+perf_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=perf_FL, aes(x=Longitude, y=Latitude), col="black") +
+    theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. perfoliata")
+
+tex_map <- ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group), col="black", fill="white") + 
+  coord_fixed(1.3) + geom_point(data=tex_FL, aes(x=Longitude, y=Latitude), col="black") +
+    theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic")) +
+  ggtitle("T. texana")
+
+```
+
+```{r, fig.width=7.5, fig.height=10}
+grid.arrange(bif_map, col_map, holz_map, lamp_map, lept_map, perf_map, tex_map, ncol=2)
 ```
 
 
@@ -164,17 +306,6 @@ tex <- ggplot(filter(dat, Species == "texana", Phenology=="Flowering", DOY > 0),
 ```
 
 
-```{prepping data for linear models}
-
-bif_FL<-filter(dat, Species=="biflora", Phenology=="Flowering", Latitude>24.5465)
-col_FL<-filter(dat, Species=="coloradoensis", Phenology=="Flowering", Latitude>24.5465)
-holz_FL<-filter(dat, Species=="holzingeri", Phenology=="Flowering", Latitude>24.5465)
-lamp_FL<-filter(dat, Species=="lamprosperma", Phenology=="Flowering", Latitude>24.5465)
-lept_FL<-filter(dat, Species=="leptocarpa", Phenology=="Flowering", Latitude>24.5465)
-perf_FL<-filter(dat, Species=="perfoliata", Phenology=="Flowering", Latitude>24.5465)
-tex_FL<-filter(dat, Species=="texana", Phenology=="Flowering", Latitude>24.5465)
-```
-
 
 ```{running linear models}
 summary(lm(DOY~Year + Latitude * Longitude * elevation, holz_FL))
@@ -193,8 +324,9 @@ bif_hist <- ggplot(filter(dat, Species == "biflora", Phenology=="Flowering", Lat
         legend.position= c(0.9, 0.8),
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) + 
   geom_vline(xintercept=124.2472, col="red") +
   ggtitle("T.biflora")
@@ -212,7 +344,8 @@ col_hist <- ggplot(filter(dat, Species == "coloradoensis", Phenology=="Flowering
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        axis.title.x=element_blank(),
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) + 
   ggtitle("T. coloradoensis") + 
   geom_vline(xintercept=128.1807, col="red")
@@ -229,7 +362,8 @@ lamp_hist <- ggplot(filter(dat, Species == "lamprosperma", Phenology=="Flowering
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        axis.title.x=element_blank(),
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) + 
   ggtitle("T. lamprosperma") +
   geom_vline(xintercept=135.4524, col="red")
@@ -246,7 +380,8 @@ lept_hist <- ggplot(filter(dat, Species == "leptocarpa", Phenology=="Flowering",
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        axis.title.x=element_blank(),
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) + 
   ggtitle("T. leptocarpa") + 
   geom_vline(xintercept=146.9778, col="red")
@@ -263,7 +398,8 @@ holz_hist <- ggplot(filter(dat, Species == "holzingeri", Phenology=="Flowering",
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        axis.title.x=element_blank(),
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) + 
   ggtitle("T. holzingeri") + 
   geom_vline(xintercept=159.4182, col="red")
@@ -281,7 +417,8 @@ perf_hist <- ggplot(filter(dat, Species == "perfoliata", Phenology=="Flowering",
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        axis.title.x=element_blank(),
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) + 
   ggtitle("T. perfoliata") +
   geom_vline(xintercept=146.169, col="red")
@@ -299,7 +436,7 @@ tex_hist <- ggplot(filter(dat, Species == "texana", Phenology=="Flowering", Lati
         legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title.y=element_blank(),
-        title=element_text(face="italic", size=10)) +
+        title=element_text(face="italic", size=8)) +
   xlim(50,250) +
   ggtitle("T. texana") + 
   geom_vline(xintercept=117.8696, col="red")
@@ -325,14 +462,13 @@ mean(tex_dat$DOY)
 ```
 
 
-```{r, fig.width=4, fig.height=10}
+```{r, fig.width=3.25, fig.height=11}
 grid.arrange(bif_hist, col_hist, holz_hist, lept_hist, lamp_hist, perf_hist, tex_hist, ncol=1)
 ```
 
 
 
-```{r time_trends, echo=FALSE, fig.width=4, fig.height=10}
+```{r time_trends, echo=FALSE, fig.width=3.25, fig.height=10}
 grid.arrange(bif, col, holz, lept, lamp, perf, tex, ncol=1)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
