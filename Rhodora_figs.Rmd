@@ -1,0 +1,338 @@
+---
+title: "Triodanis_phenology"
+author: "colette"
+date: "12/8/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# read in necessary packages
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(ggmap)
+
+#set the working directory (it's in the dropbox)
+setwd("~/Dropbox/colette/Triodanis_phenology")
+```
+
+## This is the R code for making figures in the 2022 / 2023 Rhodora submission about Triodanis phenology
+
+```{r maps for each species}
+dat = read.csv("clean_data_10.8.csv")
+register_google(key="AIzaSyBDGTymKum2jno0ar-rZDTY8WRdgplYgdI")
+```
+
+
+```{r maps for each species}
+#us <- get_map(location="us")
+#ggmap(us)
+#?register_google
+```
+
+
+```{r time_trends, echo=FALSE}
+bif <- ggplot(filter(dat, Species == "biflora", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) + 
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) + 
+  ggtitle("T. biflora")
+
+col <- ggplot(filter(dat, Species == "coloradoensis", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) + 
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) +
+  ggtitle("T. coloradoensis")
+
+
+holz <- ggplot(filter(dat, Species == "holzingeri", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) + 
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) +
+  ggtitle("T. holzingheri")
+
+lamp <- ggplot(filter(dat, Species == "lamprosperma", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) + 
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) +
+  ggtitle("T. lamprosperma")
+
+lept <- ggplot(filter(dat, Species == "leptocarpa", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) +
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) +
+  ggtitle("T. leptocarpa")
+
+perf <- ggplot(filter(dat, Species == "perfoliata", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) + 
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) +
+  ggtitle("T.perfoliata")
+
+tex <- ggplot(filter(dat, Species == "texana", Phenology=="Flowering", DOY > 0), aes(x=Year, y=DOY)) + geom_point(size=.5) + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title = element_text(face="italic", size=8)) + 
+  xlim(1890, 2010) +
+  geom_smooth(method="lm", col="black", size=.5, se=FALSE) +
+  ggtitle("T. texana")
+```
+
+
+```{prepping data for linear models}
+
+bif_FL<-filter(dat, Species=="biflora", Phenology=="Flowering", Latitude>24.5465)
+col_FL<-filter(dat, Species=="coloradoensis", Phenology=="Flowering", Latitude>24.5465)
+holz_FL<-filter(dat, Species=="holzingeri", Phenology=="Flowering", Latitude>24.5465)
+lamp_FL<-filter(dat, Species=="lamprosperma", Phenology=="Flowering", Latitude>24.5465)
+lept_FL<-filter(dat, Species=="leptocarpa", Phenology=="Flowering", Latitude>24.5465)
+perf_FL<-filter(dat, Species=="perfoliata", Phenology=="Flowering", Latitude>24.5465)
+tex_FL<-filter(dat, Species=="texana", Phenology=="Flowering", Latitude>24.5465)
+```
+
+
+```{running linear models}
+summary(lm(DOY~Year + Latitude * Longitude * elevation, holz_FL))
+```
+
+
+```{r time_trends, echo=FALSE}
+bif_hist <- ggplot(filter(dat, Species == "biflora", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) + 
+  geom_vline(xintercept=124.2472, col="red") +
+  ggtitle("T.biflora")
+
+
+col_hist <- ggplot(filter(dat, Species == "coloradoensis", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) + 
+  ggtitle("T. coloradoensis") + 
+  geom_vline(xintercept=128.1807, col="red")
+
+lamp_hist <- ggplot(filter(dat, Species == "lamprosperma", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) + 
+  ggtitle("T. lamprosperma") +
+  geom_vline(xintercept=135.4524, col="red")
+
+lept_hist <- ggplot(filter(dat, Species == "leptocarpa", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) + 
+  ggtitle("T. leptocarpa") + 
+  geom_vline(xintercept=146.9778, col="red")
+
+holz_hist <- ggplot(filter(dat, Species == "holzingeri", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) + 
+  ggtitle("T. holzingeri") + 
+  geom_vline(xintercept=159.4182, col="red")
+
+
+perf_hist <- ggplot(filter(dat, Species == "perfoliata", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) + 
+  ggtitle("T. perfoliata") +
+  geom_vline(xintercept=146.169, col="red")
+
+
+tex_hist <- ggplot(filter(dat, Species == "texana", Phenology=="Flowering", Latitude>24.5465, DOY > 0), aes(DOY)) + geom_histogram(col="black", fill="white") + theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        strip.placement="outside",
+        strip.background = element_blank(),
+        panel.spacing = unit(.1, "lines"),
+        legend.position= c(0.9, 0.8),
+        legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title.y=element_blank(),
+        title=element_text(face="italic", size=10)) +
+  xlim(50,250) +
+  ggtitle("T. texana") + 
+  geom_vline(xintercept=117.8696, col="red")
+```
+
+```{r}
+bif_dat <- filter(dat, Species == "biflora", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+col_dat <- filter(dat, Species == "coloradoensis", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+holz_dat <- filter(dat, Species == "holzingeri", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+lept_dat <- filter(dat, Species == "leptocarpa", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+lamp_dat <- filter(dat, Species == "lamprosperma", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+perf_dat <- filter(dat, Species == "perfoliata", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+tex_dat <- filter(dat, Species == "texana", Phenology=="Flowering", Latitude>24.5465, DOY > 0)
+
+mean(bif_dat$DOY)
+mean(col_dat$DOY)
+mean(holz_dat$DOY)
+mean(lamp_dat$DOY)
+mean(lept_dat$DOY)
+mean(perf_dat$DOY)
+mean(tex_dat$DOY)
+
+```
+
+
+```{r, fig.width=4, fig.height=10}
+grid.arrange(bif_hist, col_hist, holz_hist, lept_hist, lamp_hist, perf_hist, tex_hist, ncol=1)
+```
+
+
+
+```{r time_trends, echo=FALSE, fig.width=4, fig.height=10}
+grid.arrange(bif, col, holz, lept, lamp, perf, tex, ncol=1)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
